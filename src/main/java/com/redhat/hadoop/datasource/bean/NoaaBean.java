@@ -2,7 +2,8 @@ package com.redhat.hadoop.datasource.bean;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.component.dataset.DataSet;
+
+import com.redhat.hadoop.datasource.object.NoaaClient;
 
 
 public class NoaaBean{
@@ -13,11 +14,16 @@ public class NoaaBean{
 
     public void execute() {
         System.out.println("Timer event recieved!!");
-        producer.sendBody("<hello>world!</hello>");
+        NoaaClient client = NoaaClient.getInstance();
+        // Perhaps register this with a callback so we can make multiple requests in parallel
+        try {
+            String response = client.makeQuery("locations");
+            producer.sendBody(response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
-    public String getLocationData(Location location, DataSet dataset) {
-
-    }
 
 }

@@ -14,6 +14,8 @@
 	<camelContext xmlns="http://camel.apache.org/schema/spring">
     <route>
         <from uri="direct:start"/>
+        <!-- change this to  -->
+        <!-- <to uri="hdfs://{rootnode} /> -->
         <to uri="stream:out"/>
     </route>
     <route>
